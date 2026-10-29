@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f4efe6">
+<title>我的世界 · 资源档案馆</title>
+<meta name="description" content="我的世界整合包、Forge 版本与模组清单下载。蓝奏云提取码访问。">
+<link rel="preload" href="poster.webp" as="image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2314120f'/%3E%3Ctext x='50%25' y='56%25' font-family='Georgia,serif' font-size='34' fill='%23f07fa3' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --paper:#f4efe6;
+    --paper-2:#efe9de;
+    --ink:#14120f;
+    --muted:#5f594f;
+    --faint:rgba(20,18,15,.46);
+    --line:rgba(20,18,15,.14);
+    --pink:#f07fa3;
+    --pink-deep:#c9517a;
+    --card:#151310;
+    --card-ink:#f6f1e8;
+    --serif:"Songti SC","Noto Serif SC","STSong","SimSun",serif;
+    --serif-en:"Times New Roman",Georgia,serif;
+    --sans:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+  ::selection{background:var(--pink);color:#151310}
+
+  .stage{
+    position:relative;
+    min-height:100svh;
+    background:var(--paper);
+    overflow:hidden;
+  }
+
+  /* ---------- artwork ---------- */
+  .art{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background:var(--paper);
+    overflow:hidden;
+    animation:artIn 1.6s ease both;
+  }
+  .art-fallback{
+    position:absolute;
+    inset:0;
+    background:var(--paper) url("poster.webp") center/cover no-repeat;
+  }
+  .art video{
+    position:absolute;
+    inset:0;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+    transform-origin:50% 45%;
+    animation:breathe 26s ease-in-out infinite alternate;
+    filter:contrast(1.015);
+  }
+  @keyframes breathe{from{transform:scale(1)}to{transform:scale(1.025)}}
+  .art-tint{
+    position:absolute;
+    inset:0;
+    background:var(--paper);
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .art.no-motion video{display:none}
+  @keyframes artIn{from{opacity:0}to{opacity:1}}
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:absolute;
+    top:0;left:0;right:0;
+    z-index:6;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px;
+    padding:26px clamp(24px,3.4vw,52px);
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{
+    width:34px;height:34px;
+    border:1px solid rgba(20,18,15,.55);
+    display:grid;place-items:center;
+    font-family:var(--serif);
+    font-size:16px;
+    line-height:1;
+    position:relative;
+    flex:none;
+  }
+  .mark::after{
+    content:"";
+    position:absolute;
+    right:-3px;top:-3px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--pink);
+  }
+  .brand-copy{display:flex;flex-direction:column;gap:3px}
+  .brand-copy strong{
+    font-family:var(--mono);
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.26em;
+  }
+  .brand-copy span{
+    font-family:var(--mono);
+    font-size:8px;
+    letter-spacing:.22em;
+    color:var(--faint);
+  }
+  .nav-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-top:10px;
+    font-family:var(--mono);
+    font-size:9.5px;
+    letter-spacing:.18em;
+    color:rgba(20,18,15,.55);
+    text-transform:uppercase;
+  }
+  .nav-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--pink)}
+
+  /* ---------- paper sheet ---------- */
+  .sheet{
+    position:relative;
+    z-index:2;
+    width:clamp(420px,33vw,620px);
+    min-width:0;
+    min-height:100svh;
+    background:var(--paper);
+    border-right:1px solid rgba(20,18,15,.12);
+    box-shadow:28px 0 70px rgba(20,18,15,.07);
+    animation:sheetIn 1.1s cubic-bezier(.2,.65,.2,1) both;
+  }
+  @keyframes sheetIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+  .sheet-inner{
+    width:100%;
+    max-width:480px;
+    min-height:100svh;
+    padding:118px clamp(20px,2.2vw,28px) 26px clamp(28px,3.4vw,52px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- hero copy ---------- */
+  .hero{flex:1}
+  .eyebrow{
+    display:flex;align-items:center;gap:9px;
+    margin:0;
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:.22em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--pink);flex:none}
+  h1{
+    margin:16px 0 0;
+    font-family:var(--serif);
+    font-size:clamp(54px,5.9vw,88px);
+    font-weight:600;
+    line-height:1;
+    letter-spacing:.035em;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  h1 .dot{color:var(--pink);margin-left:.02em}
+  .en{
+    margin:12px 0 0;
+    font-family:var(--serif-en);
+    font-size:clamp(11px,1vw,14px);
+    letter-spacing:.42em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .en em{font-style:italic;color:var(--pink-deep)}
+  .lede{
+    margin:24px 0 0;
+    max-width:38ch;
+    font-size:14px;
+    line-height:1.95;
+    color:var(--muted);
+  }
+
+  .stats{
+    display:flex;
+    gap:clamp(20px,2.4vw,34px);
+    margin:28px 0 0;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .stats div{display:flex;flex-direction:column;gap:5px}
+  .stats dt{
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:.18em;
+    color:var(--faint);
+  }
+  .stats dd{
+    margin:0;
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:600;
+    line-height:1;
+    letter-spacing:.02em;
+  }
+  .stats dd small{
+    font-family:var(--mono);
+    font-size:8px;
+    font-weight:400;
+    letter-spacing:.08em;
+    color:var(--faint);
+    margin-left:3px;
+  }
+
+  /* ---------- download card ---------- */
+  .card{
+    margin-top:26px;
+    padding:22px 22px 19px;
+    background:var(--card);
+    color:var(--card-ink);
+    border-top:2px solid var(--pink);
+    border-radius:2px;
+    box-shadow:0 26px 50px rgba(20,18,15,.18);
+  }
+  .card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:.2em;
+    color:rgba(246,241,232,.48);
+  }
+  .card-top .no{color:rgba(246,241,232,.34)}
+  .field{padding:15px 0;border-top:1px solid rgba(246,241,232,.13);margin-top:14px}
+  .field + .field{margin-top:0}
+  .field .k{
+    display:block;
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:.18em;
+    color:rgba(246,241,232,.45);
+    margin-bottom:9px;
+  }
+  .url{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0;
+    color:var(--card-ink);
+    word-break:break-all;
+    transition:color .2s ease;
+  }
+  .url svg{flex:none;width:12px;height:12px;opacity:.5;transition:opacity .2s ease,transform .2s ease}
+  .url:hover{color:var(--pink)}
+  .url:hover svg{opacity:1;transform:translate(2px,-2px)}
+  .pwd-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .pwd{
+    font-family:var(--mono);
+    font-size:30px;
+    font-weight:500;
+    line-height:1;
+    letter-spacing:.32em;
+    color:var(--pink);
+    padding-left:.05em;
+  }
+  .chip{
+    flex:none;
+    border:1px solid rgba(240,127,163,.45);
+    background:rgba(240,127,163,.08);
+    color:var(--pink);
+    border-radius:999px;
+    padding:6px 12px;
+    font-size:10px;
+    letter-spacing:.14em;
+    cursor:pointer;
+    transition:background .2s ease,border-color .2s ease;
+  }
+  .chip:hover{background:rgba(240,127,163,.18);border-color:rgba(240,127,163,.8)}
+  .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:16px;
+  }
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    height:44px;
+    border-radius:2px;
+    border:1px solid transparent;
+    font-size:12px;
+    letter-spacing:.1em;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .22s ease,border-color .22s ease,color .22s ease;
+  }
+  .btn.primary{background:var(--pink);color:#151310}
+  .btn.primary:hover{background:#ff9ab8}
+  .btn.primary .arrow{font-size:13px;line-height:1}
+  .btn.ghost{
+    background:transparent;
+    border-color:rgba(246,241,232,.24);
+    color:rgba(246,241,232,.9);
+  }
+  .btn.ghost:hover{border-color:rgba(246,241,232,.55);background:rgba(255,255,255,.04)}
+  .note{
+    margin:14px 0 0;
+    font-size:10.5px;
+    line-height:1.75;
+    color:rgba(246,241,232,.42);
+  }
+
+  /* ---------- footer / credit ---------- */
+  .foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-top:32px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:.14em;
+    color:var(--faint);
+    text-transform:uppercase;
+  }
+  .credit{
+    position:absolute;
+    right:clamp(20px,3.4vw,52px);
+    bottom:26px;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:8px;
+    letter-spacing:.16em;
+    color:rgba(20,18,15,.42);
+    text-transform:uppercase;
+    transition:color .2s ease;
+  }
+  .credit::before{content:"";width:26px;height:1px;background:rgba(20,18,15,.28)}
+  .credit:hover{color:var(--pink-deep)}
+
+  /* ---------- texture + toast ---------- */
+  .grain{
+    position:fixed;
+    inset:0;
+    z-index:8;
+    pointer-events:none;
+    opacity:.045;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+  }
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:30px;
+    transform:translate(-50%,14px);
+    z-index:50;
+    padding:11px 20px;
+    background:rgba(21,19,16,.94);
+    border:1px solid rgba(240,127,163,.4);
+    color:var(--card-ink);
+    border-radius:999px;
+    font-size:11px;
+    letter-spacing:.08em;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;
+    backdrop-filter:blur(8px);
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .hero > *{animation:rise .9s both cubic-bezier(.2,.65,.2,1)}
+  .hero > :nth-child(1){animation-delay:.16s}
+  .hero > :nth-child(2){animation-delay:.22s}
+  .hero > :nth-child(3){animation-delay:.28s}
+  .hero > :nth-child(4){animation-delay:.34s}
+  .hero > :nth-child(5){animation-delay:.4s}
+  .hero > :nth-child(6){animation-delay:.46s}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (min-width:1101px) and (max-height:820px){
+    .sheet-inner{padding-top:98px}
+    .lede{margin-top:18px;line-height:1.8}
+    .stats{margin-top:20px;padding-top:12px}
+    .card{margin-top:20px;padding:18px 20px 16px}
+    .field{padding:12px 0;margin-top:12px}
+    .actions{margin-top:12px}
+    .note{margin-top:10px;font-size:9.5px;line-height:1.6}
+    .foot{margin-top:24px;padding-top:12px}
+  }
+  @media (max-width:1100px){
+    .stage{overflow:visible;display:flow-root}
+    .art{position:absolute;top:0;left:0;width:100%;height:48svh}
+    .art video{object-position:20% 38%}
+    .art-fallback{background-position:20% 38%}
+    .sheet{
+      width:100%;
+      min-width:0;
+      min-height:0;
+      margin-top:46svh;
+      border-right:0;
+      border-radius:24px 24px 0 0;
+      overflow:hidden;
+      box-shadow:0 -24px 60px rgba(20,18,15,.1);
+    }
+    .sheet-inner{max-width:none;min-height:0;padding:34px 24px 28px}
+    .nav{
+      padding:20px 24px 32px;
+      background:linear-gradient(180deg,rgba(244,239,230,.97) 0%,rgba(244,239,230,.88) 48%,rgba(244,239,230,0) 100%);
+    }
+    .nav-meta{padding-top:7px}
+    .credit{display:none}
+    h1{font-size:clamp(56px,11vw,80px)}
+    .lede{max-width:44ch}
+    .foot{margin-top:36px}
+  }
+  @media (max-width:560px){
+    .brand-copy span{display:none}
+    .nav{align-items:center;padding:18px 22px 26px}
+    .nav-meta{padding-top:0;font-size:8px;letter-spacing:.14em;gap:7px}
+    .nav-meta .year{display:none}
+    .mark{width:30px;height:30px;font-size:14px}
+    .art{height:46svh}
+    .sheet{margin-top:44svh}
+    .sheet-inner{padding:28px 22px 24px}
+    h1{font-size:clamp(52px,15.5vw,68px);letter-spacing:.02em}
+    .en{letter-spacing:.3em;font-size:10px}
+    .lede{font-size:13.5px;margin-top:20px}
+    .stats{gap:20px;margin-top:24px;padding-top:14px}
+    .stats dd{font-size:21px}
+    .card{margin-top:22px;padding:20px 18px 17px}
+    .actions{grid-template-columns:1fr;gap:7px}
+    .btn{height:43px}
+    .pwd{font-size:28px}
+    .foot{font-size:7.5px;letter-spacing:.1em}
+    .toast{bottom:20px;font-size:10px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="art" aria-hidden="true">
+    <div class="art-fallback"></div>
+    <video class="art-video" poster="poster.webp" autoplay muted loop playsinline preload="auto"></video>
+    <div class="art-tint"></div>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="我的世界资源档案馆">
+      <span class="mark">M</span>
+      <span class="brand-copy">
+        <strong>MY WORLD</strong>
+        <span>RESOURCE ARCHIVE</span>
+      </span>
+    </a>
+    <div class="nav-meta">
+      <span>ISSUE 001</span>
+      <span class="dot"></span>
+      <span class="year">2026</span>
+    </div>
+  </header>
+
+  <aside class="sheet">
+    <div class="sheet-inner">
+      <main class="hero" id="top">
+        <p class="eyebrow"><i></i>DOUJIN ARCHIVE / 资源档案</p>
+        <h1>我的世界<span class="dot">.</span></h1>
+        <p class="en">RESOURCE <em>ARCHIVE</em></p>
+        <p class="lede">整合包、Forge 版本与模组清单，一次打包。通过蓝奏云安全分发，输入提取码即可获取全部文件。</p>
+
+        <dl class="stats">
+          <div><dt>FILES</dt><dd>05</dd></div>
+          <div><dt>TOTAL</dt><dd>233<small>MB</small></dd></div>
+          <div><dt>UPDATED</dt><dd>10.29</dd></div>
+        </dl>
+
+        <section class="card" aria-label="下载信息">
+          <div class="card-top">
+            <span>DOWNLOAD ACCESS</span>
+            <span class="no">NO. 001</span>
+          </div>
+
+          <div class="field">
+            <span class="k">下载地址</span>
+            <a class="url" href="https://xh126.lanzoum.com/b01i5yg7ad" target="_blank" rel="noopener noreferrer">
+              <span>xh126.lanzoum.com/b01i5yg7ad</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+
+          <div class="field">
+            <span class="k">提取密码</span>
+            <div class="pwd-row">
+              <span class="pwd" id="pwd">0000</span>
+              <button class="chip" id="copyPwd" type="button">复制</button>
+            </div>
+          </div>
+
+          <div class="actions">
+            <a class="btn primary" href="https://xh126.lanzoum.com/b01i5yg7ad" target="_blank" rel="noopener noreferrer">前往蓝奏云 <span class="arrow">↗</span></a>
+            <button class="btn ghost" id="copyAll" type="button">复制地址与密码</button>
+          </div>
+
+          <p class="note">打开链接后输入提取码即可下载。文件较大，建议在 Wi-Fi 环境下获取。</p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span>© 2026 MY WORLD ARCHIVE</span>
+        <span>PAGE 01 / 01</span>
+      </footer>
+    </div>
+  </aside>
+
+  <a class="credit" href="https://haowallpaper.com/homeViewLook/17603706209226112" target="_blank" rel="noopener noreferrer">ARTWORK / KUROHA</a>
+  <div class="grain" aria-hidden="true"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制到剪贴板</div>
+
+<script>
+  (function () {
+    var pwd = document.getElementById('pwd').textContent.trim();
+    var url = 'https://xh126.lanzoum.com/b01i5yg7ad';
+    var toast = document.getElementById('toast');
+    var timer = null;
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+    }
+
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    function copy(text, okText) {
+      var done = function () { showToast(okText); };
+      var fail = function () { showToast('复制失败，请手动选择'); };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(function () {
+          legacyCopy(text) ? done() : fail();
+        });
+      } else {
+        legacyCopy(text) ? done() : fail();
+      }
+    }
+
+    document.getElementById('copyPwd').addEventListener('click', function () {
+      copy(pwd, '提取码已复制');
+    });
+
+    document.getElementById('copyAll').addEventListener('click', function () {
+      copy('下载地址：' + url + '\n提取密码：' + pwd, '地址和密码已复制');
+    });
+
+    var art = document.querySelector('.art');
+    var video = document.querySelector('.art-video');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function ensureSource() {
+      if (!video || video.getAttribute('src')) return;
+      video.src = window.matchMedia('(max-width: 1100px)').matches ? 'bg-loop.mp4' : 'bg-loop-1440.mp4';
+      video.load();
+    }
+
+    function syncMotion() {
+      if (!video || !art) return;
+      var reduce = reduceMotion.matches;
+      art.classList.toggle('no-motion', reduce);
+      if (reduce || document.hidden) {
+        video.pause();
+      } else {
+        ensureSource();
+        video.play().catch(function () {});
+      }
+    }
+
+    if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', syncMotion);
+    document.addEventListener('visibilitychange', syncMotion);
+    syncMotion();
+  })();
+</script>
+</body>
+</html>
